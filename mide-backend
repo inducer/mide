@@ -1,0 +1,44 @@
+#! /bin/bash
+
+set -e
+
+command="$1"
+backend="$2"
+shift
+shift
+
+function validate_file {
+  if test -f "$1"; then
+    echo "$1"
+  else
+    find . -name "`basename "$1"`" -type f
+  fi
+  }
+
+NEDIT_NC=nedit-nc
+
+case "$backend" in
+  NEdit )
+	case "$command" in
+	  position )
+  		file=`validate_file "$1"`
+		line="$2"
+		$NEDIT_NC -noask -line "$line" "$file"
+		;;
+	  open )
+  		file=`validate_file "$1"`
+		$NEDIT_NC -noask "$file"
+  		;;
+	  save )
+		next=`$NEDIT_NC -noask -do 'save_all()'`
+		;;
+	esac
+	;;
+  * )
+	case "$command" in
+	  position | open)
+		xmessage "Sorry, the $backend backend doesn't exist yet. You can create it by editing $0."
+		;;
+	esac
+	;;
+esac

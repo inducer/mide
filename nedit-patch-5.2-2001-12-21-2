@@ -1,0 +1,106 @@
+Only in nedit-5.2-hacked/source: Makefile.linux
+Only in nedit-5.2-hacked/source: file.o
+Only in nedit-5.2-hacked/source: help.o
+Only in nedit-5.2-hacked/source: highlight.o
+Only in nedit-5.2-hacked/source: highlightData.o
+Only in nedit-5.2-hacked/source: interpret.o
+diff -ur nedit-5.2/source/macro.c nedit-5.2-hacked/source/macro.c
+--- nedit-5.2/source/macro.c	Tue Aug 14 04:37:16 2001
++++ nedit-5.2-hacked/source/macro.c	Fri Dec 21 14:45:06 2001
+@@ -1685,7 +1685,7 @@
+     else if (!strcmp(string, "last"))
+ 	w = WindowList;
+     else if (!strcmp(string, "next"))
+-	w = window->next;
++	w = MacroFocusWindow()->next;
+     else {
+ 	for (w=WindowList; w != NULL; w = w->next) {
+ 	    sprintf(fullname, "%s%s", w->path, w->filename);
+Only in nedit-5.2-hacked/source: macro.o
+diff -ur nedit-5.2/source/menu.c nedit-5.2-hacked/source/menu.c
+--- nedit-5.2/source/menu.c	Tue Aug 14 04:37:16 2001
++++ nedit-5.2-hacked/source/menu.c	Fri Dec 21 16:54:21 2001
+@@ -221,6 +221,7 @@
+ 	Cardinal *nArgs);
+ static void closeAP(Widget w, XEvent *event, String *args, Cardinal *nArgs); 
+ static void saveAP(Widget w, XEvent *event, String *args, Cardinal *nArgs); 
++static void saveAllAP(Widget w, XEvent *event, String *args, Cardinal *nArgs); 
+ static void saveAsDialogAP(Widget w, XEvent *event, String *args,
+ 	Cardinal *nArgs); 
+ static void saveAsAP(Widget w, XEvent *event, String *args, Cardinal *nArgs); 
+@@ -405,6 +406,8 @@
+     {"open_selected", openSelectedAP},
+     {"close", closeAP},
+     {"save", saveAP},
++    {"save-all", saveAllAP},
++    {"save_all", saveAllAP},
+     {"save-as", saveAsAP},
+     {"save_as", saveAsAP},
+     {"save-as-dialog", saveAsDialogAP},
+@@ -613,6 +616,7 @@
+     window->closeItem = createMenuItem(menuPane, "close", "Close", 'C',
+     	    doActionCB, "close", SHORT);
+     createMenuItem(menuPane, "save", "Save", 'S', doActionCB, "save", SHORT);
++    createMenuItem(menuPane, "saveAll", "Save All", 'l', doActionCB, "save_all", SHORT);
+     createMenuItem(menuPane, "saveAs", "Save As...", 'A', doActionCB,
+     	    "save_as_dialog", SHORT);
+     createMenuItem(menuPane, "revertToSaved", "Revert to Saved", 'R',
+@@ -2385,10 +2389,20 @@
+ static void saveAP(Widget w, XEvent *event, String *args, Cardinal *nArgs) 
+ {
+     WindowInfo *window = WidgetToWindow(w);
+-
++    
+     if (CheckReadOnly(window))
+     	return;
+     SaveWindow(window);
++}
++
++static void saveAllAP(Widget w, XEvent *event, String *args, Cardinal *nArgs) 
++{
++    WindowInfo *window;
++    for (window=WindowList; window != NULL; window = window->next) {
++	if (CheckReadOnly(window))
++    	    return;
++	SaveWindow(window);
++	}
+ }
+ 
+ static void saveAsDialogAP(Widget w, XEvent *event, String *args,
+Only in nedit-5.2-hacked/source: menu.o
+Only in nedit-5.2-hacked/source: nc
+Only in nedit-5.2-hacked/source: nc.o
+Only in nedit-5.2-hacked/source: nedit
+Only in nedit-5.2-hacked/source: nedit.o
+Only in nedit-5.2-hacked/source: parse.c
+Only in nedit-5.2-hacked/source: parse.o
+Only in nedit-5.2-hacked/source: preferences.o
+Only in nedit-5.2-hacked/source: rbTree.o
+Only in nedit-5.2-hacked/source: regexConvert.o
+Only in nedit-5.2-hacked/source: regularExp.o
+Only in nedit-5.2-hacked/source: search.o
+Only in nedit-5.2-hacked/source: selection.o
+Only in nedit-5.2-hacked/source: server.o
+Only in nedit-5.2-hacked/source: shell.o
+Only in nedit-5.2-hacked/source: shift.o
+Only in nedit-5.2-hacked/source: smartIndent.o
+Only in nedit-5.2-hacked/source: tags.o
+Only in nedit-5.2-hacked/source: text.o
+Only in nedit-5.2-hacked/source: textBuf.o
+Only in nedit-5.2-hacked/source: textDisp.o
+Only in nedit-5.2-hacked/source: textDrag.o
+Only in nedit-5.2-hacked/source: textSel.o
+Only in nedit-5.2-hacked/source: undo.o
+Only in nedit-5.2-hacked/source: userCmds.o
+Only in nedit-5.2-hacked/source: window.o
+Only in nedit-5.2-hacked/util: DialogF.o
+Only in nedit-5.2-hacked/util: Makefile.linux
+Only in nedit-5.2-hacked/util: fileUtils.o
+Only in nedit-5.2-hacked/util: fontsel.o
+Only in nedit-5.2-hacked/util: getfiles.o
+Only in nedit-5.2-hacked/util: libNUtil.a
+Only in nedit-5.2-hacked/util: managedList.o
+Only in nedit-5.2-hacked/util: misc.o
+Only in nedit-5.2-hacked/util: prefFile.o
+Only in nedit-5.2-hacked/util: printUtils.o
+Only in nedit-5.2-hacked/util: utils.o

@@ -1,0 +1,28 @@
+mide README
+-----------
+
+mide is a minimal IDE born out of the need to automate the
+build-test-edit  cycle. its user interface should be pretty
+self-explanatory: enter a make command, hit f9, wait, double click on an
+error message, correct the error, repeat. to compile it, you need qt
+version 3 along with the uic. (qt 2 might work, i haven't tested that. if
+you do, please let me know.)
+
+a simple "make" should be enough for building, you might have to adjust
+the Makefile a bit (this works fine for my debian system). installation is
+even easier: copy "mide" and "mide-backend" to your path, that's it.
+mide-backend is a script that takes care of invoking the correct editor
+backends. It receives the following arguments:
+
+mide-backend save <backend>
+mide-backend open <backend> <file>
+mide-backend position <backend> <file> <line>
+
+currently, only the nedit backend works, and even for this to work, you
+need a patch to nedit which is included in the distribution. if you
+implement more editors, please send me the appropriate snippets of
+mide-backend. mide will have some zombie processes in most cases,which
+will go away when mide dies, this is a design limitation in qt that's hard
+to work around, sorry.
+
+Andreas Kloeckner <ak@ixion.net>
